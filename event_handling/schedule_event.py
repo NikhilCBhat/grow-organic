@@ -8,12 +8,13 @@ allowed_event_types = {
     "WATER", "AERATE"
 }
 
-def schedule_event(event_type, date, frequency):
+def schedule_event(event_type, event_time, frequency, is_utc_time=False):
     if event_type not in allowed_event_types:
         print(f"Invalid event type: {event_type} must be one of: {allowed_event_types}")
 
     table = get_events_table()
-    item_dict = {"EventID": get_current_utc_time(), "EventType": event_type, "Date": parse_date(date)}
+    event_time = event_time if is_utc_time else parse_date(event_time)
+    item_dict = {"EventID": get_current_utc_time(), "EventType": event_type, "EventTime": event_time}
     if frequency is not None:
         item_dict["Frequency"] = int(frequency)
 
