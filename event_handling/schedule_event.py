@@ -2,19 +2,24 @@ import argparse
 import boto3
 import time
 
+allowed_event_types = {
+    "WATER", "AERATE"
+}
+
 def parse_date(date):
-    return time.mktime(time.strptime(date, "%m/%d/%Y %H:%M"))*1000
+    return int(time.mktime(time.strptime(date, "%m/%d/%Y %H:%M"))*1000)
 
 def schedule_event(event_type, date, frequency):
+    if event_type not in allowed_event_types:
+        print(f"Invalid event type: {event_type} must be one of: {allowed_event_types}")
+
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table('Events')
-    item_dict = {"EventID": table.item_count, "Date": parse_date(date)}
+    item_dict = {"EventID": table.item_count, "EventType": event_type, "Date": parse_date(date)}
     if frequency is not None:
         item_dict["Frequency"] = frequency
 
-    table.put_item(
-        Item=item_dict
-    )
+    table.put_item(Item=item_dict)
 
 
 if __name__ == "__main__":
@@ -24,4 +29,4 @@ if __name__ == "__main__":
     parser.add_argument("-f", "--frequency", required=False)
 
     args = parser.parse_args()
-    schedule_event(args.event_type, args.date, args.frequency)
+    schedule_event(args.event_type.upper(), args.date, args.frequency)
