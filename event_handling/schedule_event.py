@@ -2,6 +2,7 @@ import argparse
 import boto3
 
 from time_utils import parse_date, get_current_utc_time
+from dynamo_utils import get_events_table
 
 allowed_event_types = {
     "WATER", "AERATE"
@@ -11,8 +12,7 @@ def schedule_event(event_type, date, frequency):
     if event_type not in allowed_event_types:
         print(f"Invalid event type: {event_type} must be one of: {allowed_event_types}")
 
-    dynamodb = boto3.resource('dynamodb')
-    table = dynamodb.Table('Events')
+    table = get_events_table()
     item_dict = {"EventID": get_current_utc_time(), "EventType": event_type, "Date": parse_date(date)}
     if frequency is not None:
         item_dict["Frequency"] = int(frequency)
