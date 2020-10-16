@@ -8,8 +8,8 @@ def create_connection(mac='B8:27:EB:54:43:36'):
 
 def send_wifi_credentials(username, password):
     s = create_connection()
-    s.send(bytes("Username: " + username, 'UTF-8'))
-    s.send(bytes("Password: " + password, 'UTF-8'))
+    s.send(bytes(username, 'UTF-8'))
+    s.send(bytes(password, 'UTF-8'))
     s.close()
 
 if __name__ == "__main__":
