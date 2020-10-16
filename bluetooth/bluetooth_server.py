@@ -13,7 +13,7 @@ try:
     while 1:
         data = client.recv(size)
         if data:
-            print("RECIEVED ", data)
+            print("Recieved ", data)
             client.send(data)
 except: 
     print("Closing socket")     
