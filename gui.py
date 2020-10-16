@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from tkcalendar import Calendar
+from bluetooth.bluetooth_client import send_wifi_credentials
 
 class GrowOrganicGUI(tk.Tk):
 
@@ -19,6 +20,22 @@ class GrowOrganicGUI(tk.Tk):
         self._add_frequency_widget()
         ttk.Button(self, text='Schedule Event!', command=self.scheduleEvent).grid(row=self.current_row, columnspan=2)
         self.current_row += 1
+        ttk.Button(self, text='Connect to Wifi', command=self._add_bluetooth_window).grid(row=self.current_row, columnspan=2)
+        self.current_row += 1
+
+    def _add_bluetooth_window(self):
+        self.bluetooth_window = tk.Toplevel(self)
+        ttk.Label(self.bluetooth_window, text='Username:').grid(row=0, column=0)
+        username_entry = ttk.Entry(self.bluetooth_window)
+        username_entry.grid(row=0, column=1)
+        
+        ttk.Label(self.bluetooth_window, text='Password:').grid(row=1, column=0)
+        password_entry = ttk.Entry(self.bluetooth_window)
+        password_entry.grid(row=1, column=1)
+
+        ttk.Button(self.bluetooth_window, text='Send Credentials!', 
+        command=lambda: send_wifi_credentials(username_entry.get(), password_entry.get())).grid(
+            row=2, columnspan=2)
 
     def _add_calendar_widget(self):
         self.calendar_date = None
