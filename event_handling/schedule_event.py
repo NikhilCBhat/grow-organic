@@ -1,5 +1,6 @@
 import argparse
 import boto3
+import pandas as pd
 
 from time_utils import parse_date, get_current_utc_time
 from dynamo_utils import get_events_table
@@ -7,6 +8,13 @@ from dynamo_utils import get_events_table
 allowed_event_types = {
     "WATER", "AERATE"
 }
+
+def schedule_events_csv(filename):
+    table = get_events_table()
+
+    for item in pd.read_csv(filename).to_dict('records'):
+        item["EventID"] = get_current_utc_time()
+        table.put_item(Item=item)
 
 def schedule_event(event_type, event_time, frequency, is_utc_time=False):
     if event_type not in allowed_event_types:
