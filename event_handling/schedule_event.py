@@ -16,7 +16,7 @@ def schedule_events_csv(filename):
         item["EventID"] = get_current_utc_time()
         table.put_item(Item=item)
 
-def schedule_event(event_type, event_time, frequency, is_utc_time=False):
+def schedule_event(event_type, event_time, frequency, is_utc_time=False, extra_params={}):
     if event_type not in allowed_event_types:
         print(f"Invalid event type: {event_type} must be one of: {allowed_event_types}")
 
@@ -25,6 +25,10 @@ def schedule_event(event_type, event_time, frequency, is_utc_time=False):
     item_dict = {"EventID": get_current_utc_time(), "EventType": event_type, "EventTime": event_time}
     if frequency is not None:
         item_dict["Frequency"] = int(frequency)
+
+    for key,value in extra_params.items():
+        if key not in item_dict:
+            item_dict[key] = value
 
     table.put_item(Item=item_dict)
 
