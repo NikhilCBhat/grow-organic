@@ -2,8 +2,8 @@ import argparse
 import boto3
 import pandas as pd
 
-from time_utils import parse_date, get_current_utc_time
-from dynamo_utils import get_events_table
+from event_handling.time_utils import parse_date, get_current_utc_time
+from event_handling.dynamo_utils import get_events_table
 
 allowed_event_types = {
     "WATER", "AERATE"
