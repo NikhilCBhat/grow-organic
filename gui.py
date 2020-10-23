@@ -1,7 +1,9 @@
 import tkinter as tk
+from tkinter import filedialog
 from tkinter import ttk
 from tkcalendar import Calendar
 from bluetooth.bluetooth_client import send_wifi_credentials
+from event_handling.schedule_event import schedule_events_csv
 
 class GrowOrganicGUI(tk.Tk):
 
@@ -22,6 +24,13 @@ class GrowOrganicGUI(tk.Tk):
         self.current_row += 1
         ttk.Button(self, text='Connect to Wifi', command=self._add_bluetooth_window).grid(row=self.current_row, columnspan=2)
         self.current_row += 1
+        ttk.Button(self, text='Bulk Schedule Events', command=self._bulk_schedule_events).grid(row=self.current_row, columnspan=2)
+        self.current_row += 1
+
+    def _bulk_schedule_events(self):
+        filename =  filedialog.askopenfilename(initialdir = "/",title = "Select file",filetypes = [("csv files","*.csv")])
+        schedule_events_csv(filename)
+        print("Scheduled Events!")
 
     def _add_bluetooth_window(self):
         self.bluetooth_window = tk.Toplevel(self)
