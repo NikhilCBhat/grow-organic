@@ -16,6 +16,10 @@ table = dynamodb.create_table(
         {
             'AttributeName': 'SensorDataID',
             'AttributeType': 'N'
+        },
+        {
+            'AttributeName': 'PlantID',
+            'AttributeType': 'N'
         }
     ],
     ProvisionedThroughput={
