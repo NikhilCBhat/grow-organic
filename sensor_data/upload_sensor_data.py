@@ -2,14 +2,18 @@ import argparse
 import boto3
 import time
 import datetime
-from sensor_data.dynamo_utils_sensors import get_sensors_table
-from event_handling.time_utils import get_current_utc_time
+from dynamo_utils_sensors import get_sensors_table
+# from event_handling.time_utils import get_current_utc_time
 
 allowed_sensor_types = {
     "PH", "MOISTER","IR", "UV", "TEMPERATURE", "WIND", "VISIBLE"
 }
 
 numPlants = 4
+
+def get_current_utc_time():
+    now = datetime.datetime.utcnow()
+    return int((now - datetime.datetime(1970, 1, 1)).total_seconds())
 
 def upload_data(plant_id, sensor_type, sensor_value, extra_params={}):
     if sensor_type not in allowed_sensor_types:
@@ -28,17 +32,18 @@ def upload_data(plant_id, sensor_type, sensor_value, extra_params={}):
 
 def mockData():
     upload_data(1,"MOISTER",10)
-    upload_data(1,"SCLLIGHT",12)
-    upload_data(1,"SDALIGHT",13)
+    # upload_data(1,"SCLLIGHT",12)
+    # upload_data(1,"SDALIGHT",13)
     upload_data(1,"TEMPERATURE",100)
 
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-n", "--plant_id", required=True)
-    parser.add_argument("-t", "--sensor_type", required=True)
-    parser.add_argument("-f", "--sensor_value", required=True)
+    mockData()
+    # parser = argparse.ArgumentParser()
+    # parser.add_argument("-n", "--plant_id", required=True)
+    # parser.add_argument("-t", "--sensor_type", required=True)
+    # parser.add_argument("-f", "--sensor_value", required=True)
 
-    args = parser.parse_args()
-    upload_data(args.event_type.upper(), args.plant_id, args.sensor_type,args.sensor_value)
+    # args = parser.parse_args()
+    # upload_data(args.event_type.upper(), args.plant_id, args.sensor_type,args.sensor_value)
