@@ -10,6 +10,10 @@ table = dynamodb.create_table(
         {
             'AttributeName': 'SensorDataID',
             'KeyType': 'HASH'
+        },
+        {
+            'AttributeName': 'PlantID',
+            'KeyType': 'RANGE'
         }
     ],
     AttributeDefinitions=[
