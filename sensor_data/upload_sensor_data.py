@@ -29,7 +29,7 @@ def upload_data(plant_id, sensor_type, sensor_value):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("-i", "--plant_id", required=True)
+    parser.add_argument("-n", "--plant_id", required=True)
     parser.add_argument("-t", "--sensor_type", required=True)
     parser.add_argument("-f", "--sensor_value", required=True)
 
