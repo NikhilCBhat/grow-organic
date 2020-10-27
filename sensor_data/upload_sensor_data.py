@@ -2,17 +2,19 @@ import argparse
 import boto3
 import time
 import datetime
+from sensor_data.dynamo_utils_sensors import get_sensors_table
+from event_handling.time_utils import get_current_utc_time
 
 allowed_sensor_types = {
-    "PH", "MOISTER","SCLLIGHT", "SDALIGHT", "TEMPERATURE", "WIND"
+    "PH", "MOISTER","IR", "UV", "TEMPERATURE", "WIND", "VISIBLE"
 }
 
 numPlants = 4
 
-def upload_data(plant_id, sensor_type, sensor_value,extra_params={}):
-    if event_type not in allowed_event_types:
+def upload_data(plant_id, sensor_type, sensor_value, extra_params={}):
+    if sensor_type not in allowed_sensor_types:
         print(f"Invalid event type: {sensor_type} must be one of: {allowed_sensor_types}")
-    if plant_id > numPlants || plant_id < 0
+    if plant_id > numPlants or plant_id < 0:
         print(f"Invalid plant id: {plant_id}")
 
     table=get_sensors_table()
