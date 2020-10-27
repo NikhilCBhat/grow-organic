@@ -4,12 +4,12 @@ import time
 import datetime
 
 allowed_sensor_types = {
-    "PH", "MOISTER","LIGHT"
+    "PH", "MOISTER","SCLLIGHT", "SDALIGHT", "TEMPERATURE", "WIND"
 }
 
 numPlants = 4
 
-def upload_data(plant_id, sensor_type, sensor_value):
+def upload_data(plant_id, sensor_type, sensor_value,extra_params={}):
     if event_type not in allowed_event_types:
         print(f"Invalid event type: {sensor_type} must be one of: {allowed_sensor_types}")
     if plant_id > numPlants || plant_id < 0
@@ -24,6 +24,11 @@ def upload_data(plant_id, sensor_type, sensor_value):
 
     table.put_item(Item=item_dict)
 
+def mockData():
+    upload_data(1,"MOISTER",10)
+    upload_data(1,"SCLLIGHT",12)
+    upload_data(1,"SDALIGHT",13)
+    upload_data(1,"TEMPERATURE",100)
 
 
 
