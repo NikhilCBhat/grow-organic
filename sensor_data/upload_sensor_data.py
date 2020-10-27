@@ -21,7 +21,7 @@ def upload_data(plant_id, sensor_type, sensor_value, extra_params={}):
     if plant_id > numPlants or plant_id < 0:
         print(f"Invalid plant id: {plant_id}")
 
-    table=get_sensors_table()
+    table = get_sensors_table()
     item_dict = {"PlantID":plant_id,"SensorDataID": get_current_utc_time(), "SensorType": sensor_type, "SensorValue": sensor_value}
 
     for key,value in extra_params.items():
