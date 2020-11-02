@@ -1,25 +1,51 @@
+import sys
+sys.path.append('.')
+
 import argparse
 import boto3
 import time
 import datetime
 from dynamo_utils_sensors import get_sensors_table
-# from event_handling.time_utils import get_current_utc_time
+from event_handling.time_utils import get_current_utc_time
+from event_handling.schedule_event import schedule_event
+import pandas as pd
 
 allowed_sensor_types = {
-    "PH", "MOISTER","IR", "UV", "TEMPERATURE", "WIND", "VISIBLE"
+    "PH", "MOISTURE","IR", "UV", "TEMPERATURE", "WIND", "VISIBLE"
 }
 
 numPlants = 4
+ 
+def create_function(row):
 
-def get_current_utc_time():
-    now = datetime.datetime.utcnow()
-    return int((now - datetime.datetime(1970, 1, 1)).total_seconds())
+    comparison_to_function = {
+        "gt": lambda x, y: x>y,
+        "lt": lambda x,y: x<y,
+        "eq": lambda x,y: x==y
+    }
+
+    def function_to_return(sensor_type, sensor_value):
+        comparison_function = comparison_to_function[row["COMPARISON"]]
+
+        if sensor_type == row["SENSOR"] and comparison_function(sensor_value, row["VALUE"]):
+            schedule_event(row["EVENT"], time.time(), is_utc_time=True)
+    
+    return function_to_return
+
+
+def get_trigger_functions(trigger_file="triggers.csv"):
+    df = pd.read_csv(trigger_file)
+
+    return list(df.apply(lambda row: create_function(row) , axis=1))
 
 def upload_data(plant_id, sensor_type, sensor_value, extra_params={}):
     if sensor_type not in allowed_sensor_types:
         print(f"Invalid event type: {sensor_type} must be one of: {allowed_sensor_types}")
+        return
+
     if plant_id > numPlants or plant_id < 0:
         print(f"Invalid plant id: {plant_id}")
+        return
 
     table = get_sensors_table()
     item_dict = {"PlantID":plant_id,"SensorDataID": get_current_utc_time(), "SensorType": sensor_type, "SensorValue": sensor_value}
@@ -30,12 +56,12 @@ def upload_data(plant_id, sensor_type, sensor_value, extra_params={}):
 
     table.put_item(Item=item_dict)
 
-def mockData():
-    upload_data(1,"MOISTER",10)
-    # upload_data(1,"SCLLIGHT",12)
-    # upload_data(1,"SDALIGHT",13)
-    upload_data(1,"TEMPERATURE",100)
+    for f in get_trigger_functions():
+        f(sensor_type, sensor_value)
 
+def mockData():
+    upload_data(1,"VISIBLE",1)
+    upload_data(1,"TEMPERATURE",100)
 
 
 if __name__ == "__main__":
