@@ -29,3 +29,18 @@ def data_light(delay):
 
             sleep(delay)
     return vis, IR, uvIndex
+
+def upload_data_to_sensor_table(light_data):
+    sensor_names = ["VISIBLE", "IR", "UV"]
+    for sensor_name, data in zip(sensor_names, light_data):
+        upload_data(0, sensor_name, data)
+
+def main():
+    light_sensor = setup_light()
+    while True:
+        light_data  = collect_data(light_sensor)
+#        upload_data_to_sensor_table(light_data)
+#        sleep(10)
+
+if __name__ == "__main__":
+    main()

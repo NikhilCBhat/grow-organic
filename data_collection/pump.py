@@ -2,7 +2,7 @@
 """Pump setup and control functions
 """
 
-import RPi.GPIO as GPIO          
+import RPi.GPIO as GPIO
 from time import sleep
 
 def setup_pump (in1, in2):
@@ -15,9 +15,17 @@ def setup_pump (in1, in2):
     return
 
 # run the pump forwards for specified time
-def run_pump (in1, in2, run_time):
+def run_pump_forward (in1, in2, run_time):
+    GPIO.output(in1, GPIO.LOW)
+    GPIO.output(in2, GPIO.HIGH)
+    print("Run forward")
+    sleep(run_time)
+    return
+
+def run_pump_backward (in1, in2, run_time):
     GPIO.output(in1, GPIO.HIGH)
     GPIO.output(in2, GPIO.LOW)
+    print("Run backward")
     sleep(run_time)
     return
 
@@ -25,5 +33,26 @@ def run_pump (in1, in2, run_time):
 def stop_pump (in1, in2, stop_time):
     GPIO.output(in1, GPIO.LOW)
     GPIO.output(in2, GPIO.LOW)
+    print("Stop")
     sleep(stop_time)
     return
+
+def main():
+    in1 = 23
+    in2 = 24
+    stop_time = 5
+    run_time = 10
+    setup_pump(in1, in2)
+    while True:
+        try:
+            run_pump_forward(in1, in2, run_time)
+            stop_pump(in1, in2, stop_time)
+            run_pump_backward(in1, in2, run_time)
+            stop_pump(in1, in2, stop_time)
+        except KeyboardInterrupt:
+            stop_pump(in1, in2, stop_time)
+            break
+    return
+
+if __name__ == "__main__":
+    main()
