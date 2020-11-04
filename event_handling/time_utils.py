@@ -1,8 +1,9 @@
 import time
 import datetime
 
-def parse_date(date):
-    return int(time.mktime(time.strptime(date, "%m/%d/%Y %H:%M"))*1000)
+def parse_date(date, from_gui=False):
+    format_string = "%Y-%m-%d %H:%M" if from_gui else "%m/%d/%Y %H:%M"
+    return int(time.mktime(time.strptime(date, format_string))*1000)
 
 def get_current_utc_time():
     now = datetime.datetime.utcnow()

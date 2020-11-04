@@ -3,7 +3,7 @@ from tkinter import filedialog
 from tkinter import ttk
 from tkcalendar import Calendar
 from bluetooth.bluetooth_client import send_wifi_credentials
-from event_handling.schedule_event import schedule_events_csv
+from event_handling.schedule_event import schedule_events_csv, schedule_event
 
 class GrowOrganicGUI(tk.Tk):
 
@@ -26,6 +26,9 @@ class GrowOrganicGUI(tk.Tk):
         self.current_row += 1
         ttk.Button(self, text='Bulk Schedule Events', command=self._bulk_schedule_events).grid(row=self.current_row, columnspan=2)
         self.current_row += 1
+        self.frequency_name_to_value = {
+            "hourly":360, "daily":360*24, "weekly":360*24*7
+        }
 
     def _bulk_schedule_events(self):
         filename =  filedialog.askopenfilename(initialdir = "/",title = "Select file",filetypes = [("csv files","*.csv")])
@@ -80,6 +83,10 @@ class GrowOrganicGUI(tk.Tk):
             f"{self.calendar_widget.selection_get()} at {self.event_time.get()}")
         if self.frequency.get() != "n/a":
             print(f"Will repeat {self.frequency.get()}")
+        
+        schedule_event(self.event_type.get(), 
+                        f"{self.calendar_widget.selection_get()} {self.event_time.get()}",
+                        frequency=self.frequency_name_to_value.get(self.frequency.get(), None), is_from_gui=True)
 
 if __name__ == "__main__":
     gui = GrowOrganicGUI()
