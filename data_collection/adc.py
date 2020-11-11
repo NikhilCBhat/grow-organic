@@ -28,6 +28,7 @@ def setup_adc():
 # Create differential input between channel 0 and 1
 #chan = AnalogIn(ads, ADS.P0, ADS.P1)
 
+
 def adc_data(delay, chan0, chan1, chan2, chan3):
     print("{:>5}\t{:>5}".format('raw', 'v'))
 
