@@ -36,7 +36,7 @@ def upload_data_to_sensor_table(temp_data):
         upload_data(0, sensor_name, data)
 
 def main(temp_sensor):
-    print_data(temp_sensor)
+#    print_data(temp_sensor)
     temp_data = collect_data(temp_sensor)
     upload_data_to_sensor_table(temp_data)
 #    sleep(10)

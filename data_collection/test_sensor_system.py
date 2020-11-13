@@ -1,5 +1,5 @@
-#!/usr/bin/python
-"""System to test all sensors and print outputs
+#!/usr/bin/env python3
+"""Test sensor connections and upload data to database
 """
 import sys
 sys.path.append('.')
