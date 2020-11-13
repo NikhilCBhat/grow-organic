@@ -1,16 +1,18 @@
-#!/usr/bin/python
-"""I2C temperature/humidity sensor functions
+#!/usr/bin/env python3
+"""I2C temperature/humidity sensor setup, read, upload data
+
 Sets up I2C connection for AHT20 sensor
 Reads in data over I2C
 Source: https://circuitpython.readthedocs.io/projects/ahtx0/en/latest/
 """
 import sys
 sys.path.append('.')
+
 from time import sleep
 import board
 import busio
 import adafruit_ahtx0
-#from sensor_data.upload_sensor_data import upload_data
+from sensor_data.upload_sensor_data import upload_data
 
 def temp_setup():
     # Create library object using our Bus I2C port
@@ -35,8 +37,8 @@ def upload_data_to_sensor_table(temp_data):
 
 def main(temp_sensor):
     print_data(temp_sensor)
-#    temp_data = collect_data(temp_sensor)
-#    upload_data_to_sensor_table(temp_data)
+    temp_data = collect_data(temp_sensor)
+    upload_data_to_sensor_table(temp_data)
 #    sleep(10)
 
 if __name__ == "__main__":

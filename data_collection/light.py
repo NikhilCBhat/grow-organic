@@ -1,5 +1,6 @@
-#!/usr/bin/python
-"""I2C light sensor functions
+#!/usr/bin/env python3
+"""SI1145 I2C light sensor functions for setup, read, and upload data
+
 Sets up I2C connection for SI1145 sensor
 Reads in data over I2C
 Source: https://github.com/THP-JOE/Python_SI1145
@@ -12,8 +13,9 @@ Source: https://github.com/THP-JOE/Python_SI1145
 import sys
 sys.path.append('.')
 from time import sleep
+
 import SI1145.SI1145 as SI1145
-#from sensor_data.upload_sensor_data import upload_data
+from sensor_data.upload_sensor_data import upload_data
 
 def light_setup():
     sensor = SI1145.SI1145()
@@ -43,8 +45,8 @@ def upload_data_to_sensor_table(light_data):
 
 def main(light_sensor):
     print_data(light_sensor)
-#    light_data  = collect_data(light_sensor)
-#   upload_data_to_sensor_table(light_data)
+    light_data  = collect_data(light_sensor)
+   upload_data_to_sensor_table(light_data)
 #   sleep(10)
 
 if __name__ == "__main__":
