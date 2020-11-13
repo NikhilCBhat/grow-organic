@@ -14,7 +14,8 @@ def main():
     light_sensor = light_setup()
     temp_sensor = temp_setup()
     # put code for adc wind sensor here
-    while True:
+#    while True:
+    for i in range(10):
         try:
             light_main(light_sensor)
             temp_main(temp_sensor)
