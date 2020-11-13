@@ -5,13 +5,14 @@ import argparse
 import boto3
 import time
 import datetime
-from dynamo_utils_sensors import get_sensors_table
+from decimal import Decimal
+from sensor_data.dynamo_utils_sensors import get_sensors_table
 from event_handling.time_utils import get_current_utc_time
 from event_handling.schedule_event import schedule_event
 import pandas as pd
 
 allowed_sensor_types = {
-    "PH", "MOISTURE","IR", "UV", "TEMPERATURE", "WIND", "VISIBLE"
+    "PH", "MOISTURE","IR", "UV", "TEMPERATURE", "WIND", "VISIBLE", "HUMIDITY"
 }
 
 numPlants = 4
@@ -48,12 +49,13 @@ def upload_data(plant_id, sensor_type, sensor_value, extra_params={}):
         return
 
     table = get_sensors_table()
-    item_dict = {"PlantID":plant_id,"SensorDataID": get_current_utc_time(), "SensorType": sensor_type, "SensorValue": sensor_value}
+    item_dict = {"PlantID":plant_id,"SensorDataID": get_current_utc_time(), "SensorType": sensor_type, "SensorValue": Decimal(str(sensor_value))}
 
     for key,value in extra_params.items():
         if key not in item_dict:
             item_dict[key] = value
 
+    print("Putting item in table:", item_dict)
     table.put_item(Item=item_dict)
 
     for f in get_trigger_functions():

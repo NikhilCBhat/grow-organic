@@ -10,6 +10,7 @@ import board
 import busio
 import adafruit_ads1x15.ads1015 as ADS
 from adafruit_ads1x15.analog_in import AnalogIn
+#from sensor_data.upload_sensor_data import upload_data
 
 def setup_adc():
     # Create the I2C bus
