@@ -4,6 +4,7 @@ from tkinter import ttk
 from tkcalendar import Calendar
 from bluetooth.bluetooth_client import send_wifi_credentials
 from event_handling.schedule_event import schedule_events_csv, schedule_event
+from sensor_data.visualize_sensors import plot_sensor_data
 
 class GrowOrganicGUI(tk.Tk):
 
@@ -20,7 +21,7 @@ class GrowOrganicGUI(tk.Tk):
         self._add_event_time_widget()
         self._add_event_type_widget()
         self._add_frequency_widget()
-        ttk.Button(self, text='Schedule Event!', command=self.scheduleEvent).grid(row=self.current_row, columnspan=2)
+        ttk.Button(self, text='Schedule Event!', command=self.schedule_event).grid(row=self.current_row, columnspan=2)
         self.current_row += 1
         ttk.Button(self, text='Connect to Wifi', command=self._add_bluetooth_window).grid(row=self.current_row, columnspan=2)
         self.current_row += 1
@@ -29,6 +30,8 @@ class GrowOrganicGUI(tk.Tk):
         self.frequency_name_to_value = {
             "hourly":360, "daily":360*24, "weekly":360*24*7
         }
+        ttk.Button(self, text='Display Sensor Data', command=plot_sensor_data).grid(row=self.current_row, columnspan=2)
+        self.current_row += 1
 
     def _bulk_schedule_events(self):
         filename =  filedialog.askopenfilename(initialdir = "/",title = "Select file",filetypes = [("csv files","*.csv")])
@@ -77,7 +80,7 @@ class GrowOrganicGUI(tk.Tk):
         tk.OptionMenu(self, self.frequency, *["n/a", "hourly", "daily", "weekly"]).grid(row=self.current_row, column=1)
         self.current_row += 1
 
-    def scheduleEvent(self):
+    def schedule_event(self):
         print(
             f"Scheduling {self.event_type.get()} event on " +
             f"{self.calendar_widget.selection_get()} at {self.event_time.get()}")

@@ -1,8 +1,8 @@
 import boto3
-from dynamo_utils_sensors import get_sensors_table
+from sensor_data.dynamo_utils_sensors import get_sensors_table
 from boto3.dynamodb.conditions import Key, Attr
 import pdb
-from upload_sensor_data import allowed_sensor_types
+from sensor_data.upload_sensor_data import allowed_sensor_types
 
 def get_data_from_database():
     table = get_sensors_table()
