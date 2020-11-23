@@ -13,6 +13,7 @@ def get_data_from_database():
             "name":sensor_type,
             "timestamps": [float(x['SensorDataID']) for x in response['Items']],
             "values":[float(x['SensorValue']) for x in response['Items']],
+            "plant_id":[int(x.get('PlantID', 0)) for x in response['Items']]
         })
     return sensorData
 

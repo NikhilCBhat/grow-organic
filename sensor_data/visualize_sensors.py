@@ -12,12 +12,17 @@ def plot_sensor_data():
     _, axes = plt.subplots(size, size)
 
     for i, sensor_data in enumerate(data):
-        sns.lineplot(
+        g = sns.lineplot(
             x=[x/3600-min(sensor_data["timestamps"])/3600 for x in sensor_data["timestamps"]],
             y=sensor_data["values"],
             ax=axes[i%size, i//size],
+            hue=sensor_data["plant_id"],
             marker="o"
-        ).set_title(sensor_data["name"])
+        )
+        g.set_title(sensor_data["name"])
+        leg = g.axes.get_legend()
+        if leg is not None:
+            leg.set_title("plant id")
     plt.tight_layout()
     plt.show()
 
