@@ -13,9 +13,10 @@ def plot_sensor_data():
 
     for i, sensor_data in enumerate(data):
         sns.lineplot(
-            x=sensor_data["timestamps"],
+            x=[x/3600-min(sensor_data["timestamps"])/3600 for x in sensor_data["timestamps"]],
             y=sensor_data["values"],
-            ax=axes[i%size, i//size]
+            ax=axes[i%size, i//size],
+            marker="o"
         ).set_title(sensor_data["name"])
     plt.tight_layout()
     plt.show()
