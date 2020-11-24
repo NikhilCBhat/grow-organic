@@ -12,7 +12,7 @@ from event_handling.schedule_event import schedule_event
 import pandas as pd
 
 allowed_sensor_types = {
-    "PH", "MOISTURE","IR", "UV", "TEMPERATURE", "WIND", "VISIBLE", "HUMIDITY"
+    "PH", "MOISTURE","SOILTEMP", "IR", "UV", "TEMPERATURE", "WIND", "VISIBLE", "HUMIDITY"
 }
 
 numPlants = 4

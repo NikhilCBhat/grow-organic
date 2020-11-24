@@ -1,8 +1,11 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 """Soil Moisture Sensor Read
-Allows for moisture sensor
+
+Allows for moisture sensor to be read and write data to database
 Source: https://learn.adafruit.com/adafruit-stemma-soil-sensor-i2c-capacitive-moisture-sensor/python-circuitpython-test
 """
+import sys
+sys.path.append('.')
 import time
 from board import SCL, SDA
 import busio
@@ -28,24 +31,25 @@ def collect_data(sensors):
         temps.append(soil_temp)
     return moisutures, temps
 
-def print_data(sensor):
+def print_data(sensors):
     # read soil mosisture
-    soil_moisture = sensor.moisture_read()
-    # read temperature from the temperature sensor
-    soil_temp = sensor.get_temp()
-    print("Soil temp: " + str(soil_temp) + "  Soil moisture: " + str(soil_moisture))
+    moistures, temps = [], []
+    for sensor in sensors:
+        soil_moisture = sensor.moisture_read()
+        # read temperature from the temperature sensor
+        soil_temp = sensor.get_temp()
+        print("Soil temp: " + str(soil_temp) + "  Soil moisture: " + str(soil_moisture))
     return
 
 def upload_data_to_sensor_table(moisture_data):
+    print(moisture_data)
     sensor_names = ["MOISTURE", "SOILTEMP"]
-    for i, data in enumerate(moisture_data):
-        for sensor_name, values in zip(sensor_names, data):
-            upload_data(i, sensor_name, values)
+    for (sensor_name, values) in zip(sensor_names, moisture_data):
+        for plant_id, sensor_val in enumerate(values):
+            upload_data(plant_id, sensor_name, sensor_val)
 
-#TODO: Figure out how to assign mulitple sensor addresses
-def main():
-    addrresses = ["0x36"]
-    moisture_sensors = moisture_setup(addrresses)
+def main(moisture_sensors):
+#    print_data(moisture_sensors)
     moisture_data  = collect_data(moisture_sensors)
     upload_data_to_sensor_table(moisture_data)
 
