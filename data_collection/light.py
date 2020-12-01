@@ -27,6 +27,13 @@ def collect_data(sensor):
     uvIndex = UV / 100.0
     return vis, IR, uvIndex
 
+def is_light_safe():
+    sensor = light_setup()
+    vis, ir, _ = collect_data(sensor)
+    vis_thresh = 10000
+    uv_thresh = 50000
+    return vis < vis_thresh and uv < uv_thresh
+
 def print_data(sensor):
     vis = sensor.readVisible()
     IR = sensor.readIR()
