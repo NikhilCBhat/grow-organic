@@ -22,6 +22,11 @@ def close_valve(valve_pin, run_time):
     sleep(run_time)
     return
 
+def water_plant(valve_pin, water_time):
+    setup_valve(valve_pin)
+    open_valve(valve_pin, water_time)
+    close_valve(valve_pin, 1)
+
 def main():
     valve_pin = 26
     setup_valve(valve_pin)
