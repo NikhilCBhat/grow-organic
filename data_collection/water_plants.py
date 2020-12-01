@@ -2,7 +2,7 @@ from time import sleep
 from data_collection.valve import setup_valve, open_valve, close_valve
 from data_collection.pump import setup_pump, run_pump_forward, stop_pump
 
-def water_plant(plant_id, water_duration):
+def water_plant(plant_id, water_duration=60):
 
     plant_id_to_pins = {
         1: (26, 23, 24),
