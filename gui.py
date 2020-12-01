@@ -20,6 +20,7 @@ class GrowOrganicGUI(tk.Tk):
         self._add_event_time_widget()
         self._add_event_type_widget()
         self._add_frequency_widget()
+        self._add_plant_id_widget()
         ttk.Button(self, text='Schedule Event!', command=self.schedule_event).grid(row=self.current_row(), columnspan=2)
         ttk.Button(self, text='Connect to Wifi', command=self._add_bluetooth_window).grid(row=self.current_row(), columnspan=2)
         ttk.Button(self, text='Bulk Schedule Events', command=self._bulk_schedule_events).grid(row=self.current_row(), columnspan=2)
@@ -69,6 +70,12 @@ class GrowOrganicGUI(tk.Tk):
         self.event_type.set("AERATE")
         tk.OptionMenu(self, self.event_type, *["AERATE", "WATER"]).grid(row=self._current_row, column=1)
 
+    def _add_plant_id_widget(self):
+        ttk.Label(self, text='Plant ID:').grid(row=self.current_row(), column=0)
+        self.plant_id = tk.StringVar(self)
+        self.plant_id.set("All")
+        tk.OptionMenu(self, self.plant_id, "All", *list(range(1,6))).grid(row=self._current_row, column=1)
+
     def _add_frequency_widget(self):
         ttk.Label(self, text='Frequency:').grid(row=self.current_row(), column=0)
         self.frequency = tk.StringVar(self)
@@ -76,15 +83,18 @@ class GrowOrganicGUI(tk.Tk):
         tk.OptionMenu(self, self.frequency, *["n/a", "hourly", "daily", "weekly"]).grid(row=self._current_row, column=1)
 
     def schedule_event(self):
+        plant_value = 0 if self.plant_id.get() == "All" else int(self.plant_id.get())
         print(
             f"Scheduling {self.event_type.get()} event on " +
-            f"{self.calendar_widget.selection_get()} at {self.event_time.get()}")
+            f"{self.calendar_widget.selection_get()} at {self.event_time.get()} for" +
+            f"Plant ID: {plant_value}")
         if self.frequency.get() != "n/a":
             print(f"Will repeat {self.frequency.get()}")
 
         schedule_event(self.event_type.get(),
                         f"{self.calendar_widget.selection_get()} {self.event_time.get()}",
-                        frequency=self.frequency_name_to_value.get(self.frequency.get(), None), is_from_gui=True)
+                        frequency=self.frequency_name_to_value.get(self.frequency.get(), None),
+                        plant_id=plant_value, is_from_gui=True)
 
 if __name__ == "__main__":
     gui = GrowOrganicGUI()
