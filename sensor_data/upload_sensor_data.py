@@ -16,7 +16,7 @@ allowed_sensor_types = {
 }
 
 numPlants = 4
- 
+
 def create_function(row):
 
     comparison_to_function = {
@@ -25,12 +25,12 @@ def create_function(row):
         "eq": lambda x,y: x==y
     }
 
-    def function_to_return(sensor_type, sensor_value):
+    def function_to_return(sensor_type, sensor_value, sensor_plant_id):
         comparison_function = comparison_to_function[row["COMPARISON"]]
 
         if sensor_type == row["SENSOR"] and comparison_function(sensor_value, row["VALUE"]):
-            schedule_event(row["EVENT"], time.time(), is_utc_time=True)
-    
+            schedule_event(row["EVENT"], time.time(), plant_id=sensor_plant_id, is_utc_time=True)
+
     return function_to_return
 
 
@@ -59,7 +59,7 @@ def upload_data(plant_id, sensor_type, sensor_value, extra_params={}):
     table.put_item(Item=item_dict)
 
     for f in get_trigger_functions():
-        f(sensor_type, sensor_value)
+        f(sensor_type, sensor_value, plant_id)
 
 def mockData():
     upload_data(1,"VISIBLE",1)
