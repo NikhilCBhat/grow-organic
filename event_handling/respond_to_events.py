@@ -1,8 +1,9 @@
+import sys
+sys.path.append('.')
 import boto3
 from dynamo_utils import get_events_table
 from boto3.dynamodb.conditions import Key, Attr
 from time_utils import get_current_utc_time
-import pdb
 from schedule_event import schedule_event
 
 def water_plants(plant_id):
