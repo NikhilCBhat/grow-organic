@@ -25,7 +25,7 @@ class GrowOrganicGUI(tk.Tk):
         ttk.Button(self, text='Connect to Wifi', command=self._add_bluetooth_window).grid(row=self.current_row(), columnspan=2)
         ttk.Button(self, text='Bulk Schedule Events', command=self._bulk_schedule_events).grid(row=self.current_row(), columnspan=2)
         self.frequency_name_to_value = {
-            "hourly":360, "daily":360*24, "weekly":360*24*7
+            "hourly":3600000, "daily":3600000*24, "weekly":3600000*24*7
         }
         ttk.Button(self, text='Display Sensor Data', command=plot_sensor_data).grid(row=self.current_row(), columnspan=2)
 
