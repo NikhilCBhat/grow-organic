@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 """Pump setup and control functions
 """
 
@@ -40,8 +40,8 @@ def stop_pump (in1, in2, stop_time):
 def main():
     in1 = 23
     in2 = 24
-    stop_time = 5
-    run_time = 10
+    stop_time = 2
+    run_time = 2
     setup_pump(in1, in2)
     while True:
         try:
