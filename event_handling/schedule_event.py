@@ -16,13 +16,13 @@ def schedule_events_csv(filename):
         item["EventID"] = get_current_utc_time()
         table.put_item(Item=item)
 
-def schedule_event(event_type, event_time, frequency=None, is_utc_time=False, is_from_gui=False, extra_params={}):
+def schedule_event(event_type, event_time, plant_id=0, frequency=None, is_utc_time=False, is_from_gui=False, extra_params={}):
     if event_type not in allowed_event_types:
         print(f"Invalid event type: {event_type} must be one of: {allowed_event_types}")
 
     table = get_events_table()
     event_time = int(event_time) if is_utc_time else parse_date(event_time, is_from_gui)
-    item_dict = {"EventID": get_current_utc_time(), "EventType": event_type, "EventTime": event_time}
+    item_dict = {"EventID": get_current_utc_time(), "EventType": event_type, "EventTime": event_time, "PlantID": plant_id}
     if frequency is not None:
         item_dict["Frequency"] = int(frequency)
 

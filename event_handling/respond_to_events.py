@@ -1,15 +1,16 @@
+import sys
+sys.path.append('.')
 import boto3
 from dynamo_utils import get_events_table
 from boto3.dynamodb.conditions import Key, Attr
 from time_utils import get_current_utc_time
-import pdb
 from schedule_event import schedule_event
 
-def water_plants():
-    print("Watering the plant!")
+def water_plants(plant_id):
+    print(f"Watering plant {plant_id}!")
 
-def aerate_plants():
-    print("Aerating the plant!")
+def aerate_plants(plant_id):
+    print(f"Aerating plant {plant_id}!")
 
 event_type_to_action = {
     "WATER": water_plants,
@@ -20,7 +21,7 @@ def take_action(event):
     event_id = event["EventID"]
     print(f"\nTaking action on: {event_id}")
     event_action = event_type_to_action[event["EventType"]]
-    event_action()
+    event_action(event.get("PlantID", 0))
 
     if 'Frequency' in event:
         reschedule_event(event)
