@@ -6,7 +6,8 @@ def water_plant(plant_id, water_duration=60):
 
     plant_id_to_pins = {
         1: (26, 23, 24),
-        2: (3, 10, 50)
+        2: (13, 23, 24),
+        3: (6, 23, 24)
     }
 
     ids_to_water = plant_id if plant_id != 0 else plant_id_to_pins.keys()
