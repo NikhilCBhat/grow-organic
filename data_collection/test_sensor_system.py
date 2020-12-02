@@ -13,7 +13,7 @@ from data_collection.moisture import moisture_setup
 from time import sleep
 
 def main():
-    addresses = [0x36, 0x37]
+    addresses = [0x37]
     moisture_sensors = moisture_setup(addresses)
     light_sensor = light_setup()
     temp_sensor = temp_setup()
