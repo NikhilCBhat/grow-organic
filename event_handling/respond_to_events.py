@@ -5,16 +5,13 @@ from dynamo_utils import get_events_table
 from boto3.dynamodb.conditions import Key, Attr
 from time_utils import get_current_utc_time
 from schedule_event import schedule_event
-
-def water_plants(plant_id):
-    print(f"Watering plant {plant_id}!")
-
-def aerate_plants(plant_id):
-    print(f"Aerating plant {plant_id}!")
+from data_collection.water_plants import water_plant
+from data_collection.relay import turn_fan_on, turn_light_on
 
 event_type_to_action = {
-    "WATER": water_plants,
-    "AERATE": aerate_plants
+    "WATER": water_plant,
+    "AERATE": lambda x: turn_fan_on(),
+    "LIGHT": lambda x: turn_light_on(),
 }
 
 def take_action(event):

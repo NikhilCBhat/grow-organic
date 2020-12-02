@@ -1,6 +1,8 @@
+import time
 from time import sleep
 from data_collection.valve import setup_valve, open_valve, close_valve
 from data_collection.pump import setup_pump, run_pump_forward, stop_pump
+from data_collection.moisture import is_water_safe
 
 def water_plant(plant_id, water_duration=60):
 
@@ -21,8 +23,10 @@ def water_plant(plant_id, water_duration=60):
         setup_pump(pump_in1, pump_in2)
 
         # do watering
-        run_pump_forward(pump_in1, pump_in2, water_duration)
-        open_valve(valve_pin, water_duration)
+        start_time = time.time()
+        while time.time() - start_time < water_duration and is_water_safe():
+            run_pump_forward(pump_in1, pump_in2, 0.5)
+            open_valve(valve_pin, 0.5)
 
         # stop watering
         close_valve(valve_pin, 1)
