@@ -4,12 +4,15 @@ Allows for control of AC outlets
 Source: https://electronicshobbyists.com/controlling-ac-devices-with-raspberry-pi-raspberry-pi-relay-control/
 """
 
+import sys
+sys.path.append('.')
 import RPi.GPIO as GPIO
 import time
 from time import sleep
+from data_collection.light import is_light_safe
+
 wind_pin = 27
 light_pin = 17
-from light import is_light_safe
 
 def setup_relay(relay_pin):
     GPIO.setmode(GPIO.BCM)
@@ -38,6 +41,10 @@ def turn_fan_on(wind_duration=60):
     open_relay(wind_pin, 1)
     print("Fan off")
 
+def turn_fan_off():
+    setup_relay(wind_pin)
+    close_relay(wind_pin, 0.5)
+
 def turn_light_on(light_duration=60):
     setup_relay(light_pin)
     start_time = time.time()
@@ -45,6 +52,10 @@ def turn_light_on(light_duration=60):
         close_relay(light_pin, 0.5)
     open_relay(light_pin, 1)
     print("Light off")
+
+def turn_light_off():
+    setup_relay(light_pin)
+    close_relay(light_pin, 0.5)
 
 def main():
     relay_pin1 = 27

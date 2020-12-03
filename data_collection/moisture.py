@@ -56,9 +56,9 @@ def upload_data_to_sensor_table(moisture_data):
             upload_data(plant_id, sensor_name, sensor_val)
 
 def main(moisture_sensors):
-    print_data(moisture_sensors)
-#    moisture_data  = collect_data(moisture_sensors)
-#    upload_data_to_sensor_table(moisture_data)
+#    print_data(moisture_sensors)
+    moisture_data  = collect_data(moisture_sensors)
+    upload_data_to_sensor_table(moisture_data)
 
 if __name__ == "__main__":
     main()

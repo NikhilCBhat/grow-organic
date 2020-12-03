@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 """Test sensor connections and upload data to database
+
+Arguments:
+   -l/--limit    Limit data collected
 """
 import sys
 sys.path.append('.')
@@ -11,24 +14,36 @@ from data_collection.moisture import main as moisture_main
 from data_collection.moisture import moisture_setup
 #from data_collection.wind import *
 from time import sleep
+import argparse
 
-def main():
+# construct the argument parse and parse the arguments
+ap = argparse.ArgumentParser()
+ap.add_argument("-l", "--limit", type=int, default=0,
+	help="limit data collected, default to loop infinitely")
+args = vars(ap.parse_args())
+
+def main(limit):
     addresses = [0x36, 0x37, 0x39]
     moisture_sensors = moisture_setup(addresses)
     light_sensor = light_setup()
     temp_sensor = temp_setup()
-    # put code for adc wind sensor here
+    # put code for wind sensor here
 
-#    while True:
-    for i in range(5):
-        try:
+    if limit != 0:
+        for i in range(limit):
             light_main(light_sensor)
-#            temp_main(temp_sensor)
-#            moisture_main(moisture_sensors)
-            # put adc wind sensor code here
-            sleep(1)
-        except KeyboardInterrupt:
-            break
+            temp_main(temp_sensor)
+            moisture_main(moisture_sensors)
+            # put wind sensor code here
+            sleep(5)
+    else:
+        while True:
+            light_main(light_sensor)
+            temp_main(temp_sensor)
+            moisture_main(moisture_sensors)
+            # put wind sensor code here
+            sleep(5)
 
 if __name__ == "__main__":
-    main()
+    limit = args["limit"]    # limit on number of data points that can be collected
+    main(limit)

@@ -1,8 +1,10 @@
+import sys
+sys.path.append('.')
 import time
 from time import sleep
-from valve import setup_valve, open_valve, close_valve
-from pump import setup_pump, run_pump_forward, stop_pump
-from moisture import is_water_safe
+from data_collection.valve import setup_valve, open_valve, close_valve
+from data_collection.pump import setup_pump, run_pump_forward, stop_pump
+from data_collection.moisture import is_water_safe
 
 def water_plant(plant_id, water_duration=60):
 

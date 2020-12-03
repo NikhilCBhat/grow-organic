@@ -6,7 +6,7 @@ from event_handling.time_utils import parse_date, get_current_utc_time
 from event_handling.dynamo_utils import get_events_table
 
 allowed_event_types = {
-    "WATER", "AERATE"
+    "WATER", "FAN ON", "FAN OFF", "LIGHT ON", "LIGHT OFF"
 }
 
 def schedule_events_csv(filename):
