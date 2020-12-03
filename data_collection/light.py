@@ -18,6 +18,7 @@ from sensor_data.upload_sensor_data import upload_data
 
 def light_setup():
     sensor = SI1145.SI1145()
+    sensor.__init__()
     return sensor
 
 def collect_data(sensor):
@@ -29,8 +30,8 @@ def collect_data(sensor):
 
 def is_light_safe():
     sensor = light_setup()
-    vis, ir, _ = collect_data(sensor)
-    vis_thresh = 10000
+    vis, ir, uv = collect_data(sensor)
+    vis_thresh = 290
     uv_thresh = 50000
     return vis < vis_thresh and uv < uv_thresh
 
@@ -50,10 +51,12 @@ def upload_data_to_sensor_table(light_data):
         upload_data(0, sensor_name, data)
 
 def main(light_sensor):
-#    print_data(light_sensor)
-    light_data  = collect_data(light_sensor)
-    upload_data_to_sensor_table(light_data)
+    print_data(light_sensor)
+#    light_data  = collect_data(light_sensor)
+#    upload_data_to_sensor_table(light_data)
 #   sleep(10)
 
 if __name__ == "__main__":
     main()
+#    sensor = light_setup()
+#    print("Done setup")

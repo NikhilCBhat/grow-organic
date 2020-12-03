@@ -32,10 +32,11 @@ def collect_data(sensors):
     return moisutures, temps
 
 def is_water_safe():
-    sensors = moisture_setup()
-    water_threshold = 10000
+    addresses = [0x36, 0x37, 0x39]
+    sensors = moisture_setup(addresses)
+    water_threshold = 600
     moistures, _ = collect_data(sensors)
-    return all(m < water_threshold for m in moistures)
+    return any(m < water_threshold for m in moistures)
 
 def print_data(sensors):
     # read soil mosisture
@@ -55,9 +56,9 @@ def upload_data_to_sensor_table(moisture_data):
             upload_data(plant_id, sensor_name, sensor_val)
 
 def main(moisture_sensors):
-#    print_data(moisture_sensors)
-    moisture_data  = collect_data(moisture_sensors)
-    upload_data_to_sensor_table(moisture_data)
+    print_data(moisture_sensors)
+#    moisture_data  = collect_data(moisture_sensors)
+#    upload_data_to_sensor_table(moisture_data)
 
 if __name__ == "__main__":
     main()
