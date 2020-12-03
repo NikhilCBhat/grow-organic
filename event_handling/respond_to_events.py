@@ -6,12 +6,14 @@ from boto3.dynamodb.conditions import Key, Attr
 from time_utils import get_current_utc_time
 from schedule_event import schedule_event
 from data_collection.water_plants import water_plant
-from data_collection.relay import turn_fan_on, turn_light_on
+from data_collection.relay import turn_fan_on, turn_light_on, turn_fan_off, turn_light_off
 
 event_type_to_action = {
     "WATER": water_plant,
-    "AERATE": lambda x: turn_fan_on(),
-    "LIGHT": lambda x: turn_light_on(),
+    "FAN ON": lambda x: turn_fan_on(),
+    "FAN OFF": lambda x: turn_fan_off(),
+    "LIGHT ON": lambda x: turn_light_on(),
+    "LIGHT OFF": lambda x: turn_light_off()
 }
 
 def take_action(event):
