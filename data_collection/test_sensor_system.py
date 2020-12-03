@@ -13,7 +13,7 @@ from data_collection.moisture import moisture_setup
 from time import sleep
 
 def main():
-    addresses = [0x37]
+    addresses = [0x36, 0x37, 0x39]
     moisture_sensors = moisture_setup(addresses)
     light_sensor = light_setup()
     temp_sensor = temp_setup()
@@ -23,8 +23,8 @@ def main():
     for i in range(5):
         try:
             light_main(light_sensor)
-            temp_main(temp_sensor)
-            moisture_main(moisture_sensors)
+#            temp_main(temp_sensor)
+#            moisture_main(moisture_sensors)
             # put adc wind sensor code here
             sleep(1)
         except KeyboardInterrupt:

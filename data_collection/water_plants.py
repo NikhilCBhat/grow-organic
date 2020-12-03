@@ -38,3 +38,5 @@ def main():
 
 if __name__ == "__main__":
     water_plant(1)
+    water_plant(2)
+    water_plant(3)

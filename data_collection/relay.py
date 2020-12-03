@@ -20,22 +20,23 @@ def setup_relay(relay_pin):
 
 def close_relay(relay_pin, run_time):
     GPIO.output(relay_pin, 0)
-    print("Relay closed - Outlet on")
+#    print("Relay closed - Outlet on")
     sleep(run_time)
     return
 
 def open_relay(relay_pin, run_time):
     GPIO.output(relay_pin, 1)
-    print("Relay open - Outlet off")
+#    print("Relay open - Outlet off")
     sleep(run_time)
     return
 
 def turn_fan_on(wind_duration=60):
     setup_relay(wind_pin)
     start_time = time.time()
-    while time.time() - start_time() < wind_duration:
+    while time.time() - start_time < wind_duration:
         close_relay(wind_pin, 0.5)
     open_relay(wind_pin, 1)
+    print("Fan off")
 
 def turn_light_on(light_duration=60):
     setup_relay(light_pin)
@@ -43,6 +44,7 @@ def turn_light_on(light_duration=60):
     while time.time() - start_time < light_duration and is_light_safe():
         close_relay(light_pin, 0.5)
     open_relay(light_pin, 1)
+    print("Light off")
 
 def main():
     relay_pin1 = 27
