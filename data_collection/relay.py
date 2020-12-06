@@ -62,17 +62,8 @@ def main():
     relay_pin2 = 17
     setup_relay(relay_pin1)
     setup_relay(relay_pin2)
-    while True:
-        try:
-            open_relay(relay_pin1, 5)
-            open_relay(relay_pin2, 10)
-            close_relay(relay_pin1, 5)
-            close_relay(relay_pin2, 10)
-        except KeyboardInterrupt:
-            open_relay(relay_pin1, 10)
-            open_relay(relay_pin2, 10)
-            break
+    open_relay(relay_pin1, 1)
+    open_relay(relay_pin2, 1)
 
 if __name__ == "__main__":
-    turn_light_on()
-    turn_fan_on()
+    main()
