@@ -68,7 +68,7 @@ class GrowOrganicGUI(tk.Tk):
         ttk.Label(self, text='Event Type:').grid(row=self.current_row(), column=0)
         self.event_type = tk.StringVar(self)
         self.event_type.set("AERATE")
-        tk.OptionMenu(self, self.event_type, *["AERATE", "WATER"]).grid(row=self._current_row, column=1)
+        tk.OptionMenu(self, self.event_type, *["AERATE", "WATER", "FAN ON", "FAN OFF", "LIGHT ON", "LIGHT OFF"]).grid(row=self._current_row, column=1)
 
     def _add_plant_id_widget(self):
         ttk.Label(self, text='Plant ID:').grid(row=self.current_row(), column=0)
