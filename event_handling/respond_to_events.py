@@ -1,6 +1,7 @@
 import sys
 sys.path.append('.')
 import boto3
+import time
 from dynamo_utils import get_events_table
 from boto3.dynamodb.conditions import Key, Attr
 from time_utils import get_current_utc_time
@@ -13,7 +14,8 @@ event_type_to_action = {
     "FAN ON": lambda x: turn_fan_on(),
     "FAN OFF": turn_fan_off(),
     "LIGHT ON": lambda x: turn_light_on(),
-    "LIGHT OFF": turn_light_off()
+    "LIGHT OFF": turn_light_off(),
+    "AERATE": run_pump_backward()
 }
 
 def take_action(event):
@@ -52,9 +54,11 @@ def get_actionable_events():
     return response['Items']
 
 def perform_all_availible_actions():
-    actionable_events = get_actionable_events()
-    for event in get_actionable_events():
-        take_action(event)
+    while True:
+        actionable_events = get_actionable_events()
+        for event in get_actionable_events():
+            take_action(event)
+        time.sleep(30*60)
 
 if __name__ == "__main__":
     perform_all_availible_actions()

@@ -1,3 +1,5 @@
+import sys
+sys.path.append('.')
 import argparse
 import boto3
 import pandas as pd
@@ -6,7 +8,7 @@ from event_handling.time_utils import parse_date, get_current_utc_time
 from event_handling.dynamo_utils import get_events_table
 
 allowed_event_types = {
-    "WATER", "FAN ON", "FAN OFF", "LIGHT ON", "LIGHT OFF"
+    "WATER", "FAN ON", "FAN OFF", "LIGHT ON", "LIGHT OFF", "AERATE"
 }
 
 def schedule_events_csv(filename):
@@ -16,7 +18,7 @@ def schedule_events_csv(filename):
         item["EventID"] = get_current_utc_time()
         table.put_item(Item=item)
 
-def schedule_event(event_type, event_time, plant_id=0, frequency=None, is_utc_time=False, is_from_gui=False, extra_params={}):
+def schedule_event(event_type, event_time, frequency=None, plant_id =0, is_utc_time=False, is_from_gui=False, extra_params={}):
     if event_type not in allowed_event_types:
         print(f"Invalid event type: {event_type} must be one of: {allowed_event_types}")
 
@@ -39,6 +41,7 @@ if __name__ == "__main__":
     parser.add_argument("-t", "--event_type", required=True)
     parser.add_argument("-d", "--date", required=True)
     parser.add_argument("-f", "--frequency", required=False)
+    parser.add_argument("-p", "--plant_id", required=False)
 
     args = parser.parse_args()
-    schedule_event(args.event_type.upper(), args.date, args.frequency)
+    schedule_event(args.event_type.upper(), args.date, args.frequency, args.plant_id)
