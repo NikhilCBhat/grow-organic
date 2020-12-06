@@ -45,9 +45,9 @@ def main():
     setup_pump(in1, in2)
     while True:
         try:
-            run_pump_forward(in1, in2, run_time)
+#            run_pump_forward(in1, in2, run_time)
             stop_pump(in1, in2, stop_time)
-            run_pump_backward(in1, in2, run_time)
+#            run_pump_backward(in1, in2, run_time)
             stop_pump(in1, in2, stop_time)
         except KeyboardInterrupt:
             stop_pump(in1, in2, stop_time)

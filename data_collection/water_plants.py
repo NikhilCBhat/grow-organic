@@ -3,7 +3,7 @@ sys.path.append('.')
 import time
 from time import sleep
 from data_collection.valve import setup_valve, open_valve, close_valve
-from data_collection.pump import setup_pump, run_pump_forward, stop_pump
+from data_collection.pump import setup_pump, run_pump_forward, run_pump_backward, stop_pump
 from data_collection.moisture import is_water_safe
 
 def water_plant(plant_id, water_duration=60):
@@ -35,10 +35,25 @@ def water_plant(plant_id, water_duration=60):
         stop_pump(pump_in1, pump_in2, 1)
         sleep(10)
 
-def main():
-    pass
+def aerate_water(aerate_duration=2):
+    valve_pin, pump_in1, pump_in2 = 26, 23, 24
+    # setup
+    setup_valve(valve_pin)
+    setup_pump(pump_in1, pump_in2)
+
+    # do aeration
+    open_valve(valve_pin, 0.5)
+    run_pump_backward(pump_in1, pump_in2, 0.5)
+    sleep(aerate_duration)
+
+    # stop aerating
+    stop_pump(pump_in1, pump_in2, 1)
+    close_valve(valve_pin, 1)
+    sleep(1)
+
 
 if __name__ == "__main__":
-    water_plant(1)
-    water_plant(2)
-    water_plant(3)
+    aerate_water(2)
+#    water_plant(1)
+#    water_plant(2)
+#    water_plant(3)
