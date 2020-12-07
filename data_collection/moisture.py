@@ -49,7 +49,6 @@ def print_data(sensors):
     return
 
 def upload_data_to_sensor_table(moisture_data):
-    print(moisture_data)
     sensor_names = ["MOISTURE", "SOILTEMP"]
     for (sensor_name, values) in zip(sensor_names, moisture_data):
         for plant_id, sensor_val in enumerate(values):

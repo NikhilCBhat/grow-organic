@@ -12,13 +12,13 @@ def setup_valve(valve_pin):
 
 def open_valve(valve_pin, run_time):
     GPIO.output(valve_pin, 1)
-    print("Solenoid Open")
+#    print("Solenoid Open")
     sleep(run_time)
     return
 
 def close_valve(valve_pin, run_time):
     GPIO.output(valve_pin, 0)
-    print("Solenoid Closed")
+#    print("Solenoid Closed")
     sleep(run_time)
     return
 

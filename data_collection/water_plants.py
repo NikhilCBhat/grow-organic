@@ -7,14 +7,16 @@ from data_collection.pump import setup_pump, run_pump_forward, run_pump_backward
 from data_collection.moisture import is_water_safe
 
 def water_plant(plant_id, water_duration=60):
+    """plant_id = '1', '2', '3' or '0' or None to loop through all plants"""
 
     plant_id_to_pins = {
-        1: (26, 23, 24),
-        2: (13, 23, 24),
-        3: (6, 23, 24)
+        '1': (26, 23, 24),
+        '2': (13, 23, 24),
+        '3': (14, 23, 24)
     }
 
-    ids_to_water = [plant_id] if plant_id != 0 else plant_id_to_pins.keys()
+#    ids_to_water = [plant_id] if plant_id != 0 else plant_id_to_pins.keys()
+    ids_to_water = [plant_id] if (plant_id is not None) and (plant_id != 0) else plant_id_to_pins.keys()
 
     for p_id in ids_to_water:
         print(f"Water plant {p_id}")
@@ -29,6 +31,7 @@ def water_plant(plant_id, water_duration=60):
         while time.time() - start_time < water_duration and is_water_safe():
             run_pump_forward(pump_in1, pump_in2, 0.5)
             open_valve(valve_pin, 0.5)
+            print("Soil too wet")
 
         # stop watering
         close_valve(valve_pin, 1)
@@ -49,11 +52,11 @@ def aerate_water(aerate_duration=2):
     # stop aerating
     stop_pump(pump_in1, pump_in2, 1)
     close_valve(valve_pin, 1)
-    sleep(1)
+    sleep(10)
 
 
 if __name__ == "__main__":
     aerate_water(2)
 #    water_plant(1)
-#    water_plant(2)
+    water_plant(2)
 #    water_plant(3)

@@ -35,14 +35,14 @@ def main(limit):
             temp_main(temp_sensor)
             moisture_main(moisture_sensors)
             # put wind sensor code here
-            sleep(5)
+            sleep(10)
     else:
         while True:
             light_main(light_sensor)
             temp_main(temp_sensor)
             moisture_main(moisture_sensors)
             # put wind sensor code here
-            sleep(5)
+            sleep(10)
 
 if __name__ == "__main__":
     limit = args["limit"]    # limit on number of data points that can be collected
