@@ -22,7 +22,7 @@ def adc_setup():
   ads = ADS.ADS1015(i2c)
 
   # Create single-ended input on all channels
-  # Connect Out pin to ADC Channel 0
+  # Connect Out pin to ADC Channel 0
   # Connect RV pin to ADC Channel 1
   # Connect TMP pin to ADC Channel 2
   a_out = AnalogIn(ads, ADS.P3)
@@ -50,7 +50,7 @@ def calibrate_wind(a_out, a_rv, a_temp):
   zero_wind_volts = (analog_zero_wind * 0.0048828125) - ZERO_WIND
   norm_wind_volts = ((rv_wind_volts - zero_wind_volts) /.2300)
   print(norm_wind_volts)
-  wind_speed_mph =  pow(norm_wind_volts, 2.7265)
+  wind_speed_mph = pow(norm_wind_volts, 2.7265)
   return wind_speed_mph
 
 # TODO: Below is not correct for the wind sensor
@@ -70,7 +70,7 @@ def main():
   (analog_out, analog_rv, analog_temp) = adc_setup()
   wind_speed_mph = calibrate_wind(analog_out, analog_rv, analog_temp)
   print_data(wind_speed_mph)
-  wind_data  = collect_data(wind_speed_mph)
+  wind_data = collect_data(wind_speed_mph)
   upload_data_to_sensor_table(wind_speed_mph)
 
 if __name__ == "__main__":
