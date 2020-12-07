@@ -31,7 +31,7 @@ def collect_data(sensor):
 def is_light_safe():
     sensor = light_setup()
     vis, ir, uv = collect_data(sensor)
-    vis_thresh = 290
+    vis_thresh = 280
     uv_thresh = 50000
     return vis < vis_thresh and uv < uv_thresh
 
@@ -51,10 +51,9 @@ def upload_data_to_sensor_table(light_data):
         upload_data(0, sensor_name, data)
 
 def main(light_sensor):
-    print_data(light_sensor)
-#    light_data  = collect_data(light_sensor)
-#    upload_data_to_sensor_table(light_data)
-#   sleep(10)
+#    print_data(light_sensor)
+    light_data  = collect_data(light_sensor)
+    upload_data_to_sensor_table(light_data)
 
 if __name__ == "__main__":
     main()
