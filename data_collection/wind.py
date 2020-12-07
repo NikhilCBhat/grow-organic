@@ -6,7 +6,8 @@ ADC Source: https://circuitpython.readthedocs.io/projects/ads1x15/en/latest/
 Wind Source: https://github.com/moderndevice/Wind_Sensor/
 https://moderndevice.com/product/wind-sensor/
 """
-
+import sys
+sys.path.append('.')
 from time import sleep
 import math
 import board
@@ -45,6 +46,7 @@ def calibrate_wind(a_out, a_rv, a_temp):
   rv_wind_volts = (value_rv * 0.0048828125)
   read_wind_volts = a_rv.voltage
   print("Calculated RV Voltage: {} Read RV Voltage: {}".format(rv_wind_volts, read_wind_volts))
+  analog_temp = value_temp
   temp_cal = (0.005 *(analog_temp * analog_temp) - (16.862 * (analog_temp) + 9075.4))
   analog_zero_wind = -0.0006 * (analog_temp * analog_temp) + 1.0727 * analog_temp + 47.172
   zero_wind_volts = (analog_zero_wind * 0.0048828125) - ZERO_WIND
