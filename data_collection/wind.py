@@ -64,9 +64,7 @@ def print_data(wind_speed_mph):
   return
 
 def upload_data_to_sensor_table(wind_data):
-  sensor_names = ["WIND"]
-  for sensor_name, data in zip(sensor_names, wind_data):
-    upload_data(0, sensor_name, data)
+  upload_data(0, "WIND", wind_data)
 
 def main():
   (analog_out, analog_rv, analog_temp) = adc_setup()
