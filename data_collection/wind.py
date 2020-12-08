@@ -52,7 +52,7 @@ def adc_setup():
   a_out = AnalogIn(ads, ADS.P3)
   a_rv = AnalogIn(ads, ADS.P2)
   a_temp = AnalogIn(ads, ADS.P1)
-  return a_out, a_rv, a_temp
+  return a_rv
 
 #TODO: Write calibration functions then integrate them with the rest of the system
 def calibrate_wind(a_out, a_rv, a_temp):
@@ -79,8 +79,8 @@ def calibrate_wind(a_out, a_rv, a_temp):
   return wind_speed_mph
 
 # TODO: Below is not correct for the wind sensor
-def collect_data(wind_speed_mph):
-  return wind_speed_mph
+def collect_wind_data(a_rv):
+  return a_rv.value
 
 def print_data(wind_speed_mph):
   print('Wind speed:             ' + str(wind_speed_mph))
@@ -88,6 +88,14 @@ def print_data(wind_speed_mph):
 
 def upload_data_to_sensor_table(wind_data):
   upload_data(0, "WIND", wind_data)
+
+def collect_and_upload_wind_data(wind_sensor):
+  wind_value = collect_wind_data(wind_sensor)
+  upload_data_to_sensor_table(wind_value)
+
+def is_wind_safe():
+  wind_sensor = adc_setup()
+  return collect_wind_data(wind_sensor) < 20000
 
 def main(analog_out, analog_rv, analog_temp):
 #  analog_out, analog_rv, analog_temp = adc_setup()

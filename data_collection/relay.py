@@ -10,6 +10,7 @@ import RPi.GPIO as GPIO
 import time
 from time import sleep
 from data_collection.light import is_light_safe
+from data_collection.wind import is_wind_safe
 
 wind_pin = 27
 light_pin = 17
@@ -36,7 +37,7 @@ def open_relay(relay_pin, run_time):
 def turn_fan_on(wind_duration=10):
     setup_relay(wind_pin)
     start_time = time.time()
-    while time.time() - start_time < wind_duration:
+    while time.time() - start_time < wind_duration and is_wind_safe():
         close_relay(wind_pin, 0.5)
     open_relay(wind_pin, 1)
     print("Fan off")

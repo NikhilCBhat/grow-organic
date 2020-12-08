@@ -12,6 +12,7 @@ from data_collection.light import main as light_main
 from data_collection.light import light_setup
 from data_collection.moisture import main as moisture_main
 from data_collection.moisture import moisture_setup
+from data_collection.wind import adc_setup, collect_and_upload_wind_data
 #from data_collection.wind import *
 from time import sleep
 import argparse
@@ -27,21 +28,21 @@ def main(limit):
     moisture_sensors = moisture_setup(addresses)
     light_sensor = light_setup()
     temp_sensor = temp_setup()
-    # put code for wind sensor here
+    wind_sensor = adc_setup()
 
     if limit != 0:
         for i in range(limit):
             light_main(light_sensor)
             temp_main(temp_sensor)
             moisture_main(moisture_sensors)
-            # put wind sensor code here
+            collect_and_upload_wind_data(wind_sensor)
             sleep(10)
     else:
         while True:
             light_main(light_sensor)
             temp_main(temp_sensor)
             moisture_main(moisture_sensors)
-            # put wind sensor code here
+            collect_and_upload_wind_data(wind_sensor)
             sleep(10)
 
 if __name__ == "__main__":
