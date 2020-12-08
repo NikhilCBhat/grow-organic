@@ -16,9 +16,9 @@ import adafruit_ads1x15.ads1015 as ADS
 from adafruit_ads1x15.analog_in import AnalogIn
 from sensor_data.upload_sensor_data import upload_data
 import time
-import matplolib.pyplot as plt
+import matplotlib.pyplot as plt
 
-def plot_and_collect_data(duration = 10):
+def plot_and_collect_data(duration = 30):
   a_out, a_rv, a_temp = adc_setup()
 
   out_values, voltage_values, temp_values = [], [], []
@@ -26,9 +26,10 @@ def plot_and_collect_data(duration = 10):
   current_time = time.time()
 
   while time.time() - current_time < duration:
+    print(time.time() - current_time)
     out_values.append(a_out.value)
     voltage_values.append(a_rv.value)
-    temp_values.append(temp_values.value)
+    temp_values.append(a_temp.value)
 
   plt.plot(list(range(len(out_values))), out_values, label="output")
   plt.plot(list(range(len(voltage_values))), voltage_values, label="voltage")
@@ -88,13 +89,13 @@ def print_data(wind_speed_mph):
 def upload_data_to_sensor_table(wind_data):
   upload_data(0, "WIND", wind_data)
 
-def main():
-  (analog_out, analog_rv, analog_temp) = adc_setup()
+def main(analog_out, analog_rv, analog_temp):
+#  analog_out, analog_rv, analog_temp = adc_setup()
   wind_speed_mph = calibrate_wind(analog_out, analog_rv, analog_temp)
-  print_data(wind_speed_mph)
-  wind_data = collect_data(wind_speed_mph)
+#  print_data(wind_speed_mph)
+#  wind_data = collect_data(wind_speed_mph)
   upload_data_to_sensor_table(wind_speed_mph)
 
 if __name__ == "__main__":
-  plot_and_collect_data
+  plot_and_collect_data()
 
