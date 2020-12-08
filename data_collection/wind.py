@@ -96,5 +96,5 @@ def main():
   upload_data_to_sensor_table(wind_speed_mph)
 
 if __name__ == "__main__":
-  main()
+  plot_and_collect_data
 
