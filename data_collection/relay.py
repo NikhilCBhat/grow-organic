@@ -34,11 +34,13 @@ def open_relay(relay_pin, run_time):
     sleep(run_time)
     return
 
-def turn_fan_on(wind_duration=10):
+def turn_fan_on(wind_duration=60):
     setup_relay(wind_pin)
     start_time = time.time()
+    print("Fan on")
     while time.time() - start_time < wind_duration and is_wind_safe():
         close_relay(wind_pin, 0.5)
+        print(time.time() - start_time)
     open_relay(wind_pin, 1)
     print("Fan off")
 
