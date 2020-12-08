@@ -15,6 +15,28 @@ import busio
 import adafruit_ads1x15.ads1015 as ADS
 from adafruit_ads1x15.analog_in import AnalogIn
 from sensor_data.upload_sensor_data import upload_data
+import time
+import matplolib.pyplot as plt
+
+def plot_and_collect_data(duration = 10):
+  a_out, a_rv, a_temp = adc_setup()
+
+  out_values, voltage_values, temp_values = [], [], []
+
+  current_time = time.time()
+
+  while time.time() - current_time < duration:
+    out_values.append(a_out.value)
+    voltage_values.append(a_rv.value)
+    temp_values.append(temp_values.value)
+
+  plt.plot(list(range(len(out_values))), out_values, label="output")
+  plt.plot(list(range(len(voltage_values))), voltage_values, label="voltage")
+  plt.plot(list(range(len(temp_values))), temp_values, label="temp")
+
+  plt.legend()
+  plt.show()
+
 
 def adc_setup():
   ## Create the I2C bus
