@@ -6,7 +6,8 @@ ADC Source: https://circuitpython.readthedocs.io/projects/ads1x15/en/latest/
 Wind Source: https://github.com/moderndevice/Wind_Sensor/
 https://moderndevice.com/product/wind-sensor/
 """
-
+import sys
+sys.path.append('.')
 from time import sleep
 import math
 import board
@@ -22,7 +23,7 @@ def adc_setup():
   ads = ADS.ADS1015(i2c)
 
   # Create single-ended input on all channels
-  # Connect Out pin to ADC Channel 0
+  # Connect Out pin to ADC Channel 0
   # Connect RV pin to ADC Channel 1
   # Connect TMP pin to ADC Channel 2
   a_out = AnalogIn(ads, ADS.P3)
@@ -45,12 +46,13 @@ def calibrate_wind(a_out, a_rv, a_temp):
   rv_wind_volts = (value_rv * 0.0048828125)
   read_wind_volts = a_rv.voltage
   print("Calculated RV Voltage: {} Read RV Voltage: {}".format(rv_wind_volts, read_wind_volts))
+  analog_temp = value_temp
   temp_cal = (0.005 *(analog_temp * analog_temp) - (16.862 * (analog_temp) + 9075.4))
   analog_zero_wind = -0.0006 * (analog_temp * analog_temp) + 1.0727 * analog_temp + 47.172
   zero_wind_volts = (analog_zero_wind * 0.0048828125) - ZERO_WIND
   norm_wind_volts = ((rv_wind_volts - zero_wind_volts) /.2300)
   print(norm_wind_volts)
-  wind_speed_mph =  pow(norm_wind_volts, 2.7265)
+  wind_speed_mph = pow(norm_wind_volts, 2.7265)
   return wind_speed_mph
 
 # TODO: Below is not correct for the wind sensor
@@ -62,15 +64,13 @@ def print_data(wind_speed_mph):
   return
 
 def upload_data_to_sensor_table(wind_data):
-  sensor_names = ["WIND"]
-  for sensor_name, data in zip(sensor_names, wind_data):
-    upload_data(0, sensor_name, data)
+  upload_data(0, "WIND", wind_data)
 
 def main():
   (analog_out, analog_rv, analog_temp) = adc_setup()
   wind_speed_mph = calibrate_wind(analog_out, analog_rv, analog_temp)
   print_data(wind_speed_mph)
-  wind_data  = collect_data(wind_speed_mph)
+  wind_data = collect_data(wind_speed_mph)
   upload_data_to_sensor_table(wind_speed_mph)
 
 if __name__ == "__main__":
