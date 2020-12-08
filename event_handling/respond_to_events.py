@@ -10,6 +10,10 @@ from schedule_event import schedule_event
 from data_collection.water_plants import water_plant, aerate_water
 from data_collection.relay import turn_fan_on, turn_light_on, turn_fan_off, turn_light_off
 
+def fan_on(x):
+    print("In fan wrapper")
+    turn_fan_on()
+
 event_type_to_action = {
     "WATER": water_plant,
     "FAN ON": fan_on,
@@ -19,9 +23,7 @@ event_type_to_action = {
     "AERATE": lambda x: aerate_water
 }
 
-def fan_on(x):
-    print("In fan wrapper")
-    turn_fan_on()
+
 
 def take_action(event):
     event_id = event["EventID"]
