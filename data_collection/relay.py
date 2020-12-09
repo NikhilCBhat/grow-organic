@@ -40,7 +40,6 @@ def turn_fan_on(wind_duration=60):
     print("Fan on")
     while time.time() - start_time < wind_duration and is_wind_safe():
         close_relay(wind_pin, 0.5)
-        print(time.time() - start_time)
     open_relay(wind_pin, 1)
     print("Fan off")
 
