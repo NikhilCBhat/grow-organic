@@ -28,7 +28,7 @@ event_type_to_action = {
 def take_action(event):
     event_id = event["EventID"]
     print(f"\nTaking action on: {event_id} with event type {event['EventType']}")
-    event_action = event_type_to_action[event["EventType"]]
+    event_action = event_type_to_action.get(event["EventType"], lambda: print("Event type has no associated action."))
     event_action(event.get("PlantID", 0))
 
     if 'Frequency' in event:
