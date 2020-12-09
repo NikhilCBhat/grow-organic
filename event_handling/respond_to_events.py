@@ -17,10 +17,10 @@ def fan_on(x):
 event_type_to_action = {
     "WATER": water_plant,
     "FAN ON": fan_on,
-    "FAN OFF": lambda x: turn_fan_off,
-    "LIGHT ON": lambda x: turn_light_on,
-    "LIGHT OFF": lambda x: turn_light_off,
-    "AERATE": lambda x: aerate_water
+    "FAN OFF": lambda x: turn_fan_off(),
+    "LIGHT ON": lambda x: turn_light_on(),
+    "LIGHT OFF": lambda x: turn_light_off(),
+    "AERATE": lambda x: aerate_water()
 }
 
 
@@ -60,12 +60,27 @@ def get_actionable_events():
     )
     return response['Items']
 
-def perform_all_availible_actions():
-    while True:
+def perform_all_availible_actions(limit):
+    def f():
         actionable_events = get_actionable_events()
         for event in get_actionable_events():
             take_action(event)
         time.sleep(10)
 
+    if limit:
+        for _ in range(limit):
+            f()
+        return
+
+    while True:
+        f()
+
+
 if __name__ == "__main__":
-    perform_all_availible_actions()
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("-l", "--limit", type=int, default=0,
+        help="limit data collected, default to loop infinitely")
+    args = vars(ap.parse_args())
+    limit = args["limit"]
+    perform_all_availible_actions(limit)
