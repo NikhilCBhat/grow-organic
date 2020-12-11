@@ -63,7 +63,11 @@ def upload_data(plant_id, sensor_type, sensor_value, extra_params={}):
     table.put_item(Item=item_dict)
     all_functions = get_trigger_functions()
     print(f"Got {len(all_functions)} functions")
-    for f in get_trigger_functions():
+    # for f in get_trigger_functions():
+    #     f(sensor_type, sensor_value, plant_id)
+    df = pd.read_csv("triggers.csv")
+    for _, row in df.iterrows():
+        f = create_function(row)
         f(sensor_type, sensor_value, plant_id)
 
 def mockData():
