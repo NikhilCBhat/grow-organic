@@ -6,7 +6,7 @@ from data_collection.valve import setup_valve, open_valve, close_valve
 from data_collection.pump import setup_pump, run_pump_forward, run_pump_backward, stop_pump
 from data_collection.moisture import is_water_safe
 
-def water_plant(plant_id, water_duration=10):
+def water_plant(plant_id, water_duration=30):
     """plant_id = '1', '2', '3' or '0' or None to loop through all plants"""
 
     plant_id_to_pins = {
