@@ -10,9 +10,9 @@ def water_plant(plant_id, water_duration=30):
     """plant_id = '1', '2', '3' or '0' or None to loop through all plants"""
 
     plant_id_to_pins = {
-        '1': (26, 23, 24, 0x36),
-        '2': (13, 23, 24, 0x37),
-        '3': (14, 23, 24, 0x39)
+        1: (26, 23, 24, 0x36),
+        2: (13, 23, 24, 0x37),
+        3: (14, 23, 24, 0x39)
     }
 
 #    ids_to_water = [plant_id] if plant_id != 0 else plant_id_to_pins.keys()
