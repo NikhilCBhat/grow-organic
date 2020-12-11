@@ -27,6 +27,8 @@ def create_function(row):
 
     def function_to_return(sensor_type, sensor_value, sensor_plant_id):
         comparison_function = comparison_to_function[row["COMPARISON"]]
+        print(f'Sensor type{sensor_type}, value in triggers.csv{row["SENSOR"]}, \
+         are equal? {sensor_type == row["SENSOR"]}')
         if sensor_type == row["SENSOR"] == "MOISTURE":
             print(f"Comparing these types: real: {sensor_type} trigger: {row['SENSOR']}\n comapring these values: real: {sensor_value} trigger {row['VALUE']}" +
             f"\nResult {comparison_function(sensor_value, row['VALUE'])}")
