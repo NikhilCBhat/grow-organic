@@ -40,7 +40,7 @@ def create_function(row):
 
 def get_trigger_functions(trigger_file="triggers.csv"):
     df = pd.read_csv(trigger_file)
-
+    print(df)
     return list(df.apply(lambda row: create_function(row) , axis=1))
 
 def upload_data(plant_id, sensor_type, sensor_value, extra_params={}):
