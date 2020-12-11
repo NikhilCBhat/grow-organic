@@ -12,11 +12,11 @@ from data_collection.relay import turn_fan_on, turn_light_on, turn_fan_off, turn
 
 event_type_to_action = {
     "WATER": water_plant,
-    "FAN ON": lambda x: turn_fan_on,
-    "FAN OFF": lambda x: turn_fan_off,
-    "LIGHT ON": lambda x: turn_light_on,
-    "LIGHT OFF": lambda x: turn_light_off,
-    "AERATE": lambda x: aerate_water
+    "FAN ON": lambda x: turn_fan_on(),
+    "FAN OFF": lambda x: turn_fan_off(),
+    "LIGHT ON": lambda x: turn_light_on(),
+    "LIGHT OFF": lambda x: turn_light_off(),
+    "AERATE": lambda x: aerate_water()
 }
 
 def take_action(event):
