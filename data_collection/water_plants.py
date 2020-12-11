@@ -16,6 +16,7 @@ def water_plant(plant_id, water_duration=30):
     }
 
 #    ids_to_water = [plant_id] if plant_id != 0 else plant_id_to_pins.keys()
+    plant_id = int(plant_id)
     ids_to_water = [plant_id] if (plant_id is not None) and (plant_id != 0) else plant_id_to_pins.keys()
     try:
         for p_id in ids_to_water:
