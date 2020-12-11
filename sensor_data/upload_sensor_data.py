@@ -26,9 +26,10 @@ def create_function(row):
     }
 
     def function_to_return(sensor_type, sensor_value, sensor_plant_id):
-        comparison_function = comparison_to_function[row["COMPARISON"]]
-        print(f"Comparing these types: real: {sensor_type} trigger: {row['SENSOR']}\n comapring these values: real: {sensor_value} trigger {row['VALUE']}" +
-        f"\nResult {comparison_function(sensor_value, row['VALUE'])}")
+        if sensor_type == row["SENSOR"] == "MOISTURE":
+            comparison_function = comparison_to_function[row["COMPARISON"]]
+            print(f"Comparing these types: real: {sensor_type} trigger: {row['SENSOR']}\n comapring these values: real: {sensor_value} trigger {row['VALUE']}" +
+            f"\nResult {comparison_function(sensor_value, row['VALUE'])}")
         if sensor_type == row["SENSOR"] and comparison_function(sensor_value, row["VALUE"]):
             schedule_event(row["EVENT"], time.time(), plant_id=sensor_plant_id, is_utc_time=True)
 
