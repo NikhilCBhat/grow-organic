@@ -18,7 +18,7 @@ allowed_sensor_types = {
 numPlants = 4
 
 def create_function(row):
-
+    print("Looking at", row)
     comparison_to_function = {
         "gt": lambda x, y: x>y,
         "lt": lambda x,y: x<y,
