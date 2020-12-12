@@ -31,10 +31,10 @@ def collect_data(sensors):
         temps.append(soil_temp)
     return moisutures, temps
 
-def is_water_safe():
-    addresses = [0x36, 0x37, 0x39]
+def is_water_safe(water_address):
+    addresses = [water_address]
     sensors = moisture_setup(addresses)
-    water_threshold = 600
+    water_threshold = 1500
     moistures, _ = collect_data(sensors)
     return any(m < water_threshold for m in moistures)
 

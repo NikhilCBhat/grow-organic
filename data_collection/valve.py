@@ -18,7 +18,7 @@ def open_valve(valve_pin, run_time):
 
 def close_valve(valve_pin, run_time):
     GPIO.output(valve_pin, 0)
-#    print("Solenoid Closed")
+    print("Solenoid Closed")
     sleep(run_time)
     return
 
@@ -28,7 +28,7 @@ def main():
     while True:
         try:
             open_valve(valve_pin, 5)
-            close_valve(valve_pin, 5)
+#            close_valve(valve_pin, 5)
         except KeyboardInterrupt:
             close_valve(valve_pin, 10)
             break

@@ -18,7 +18,7 @@ allowed_sensor_types = {
 numPlants = 4
 
 def create_function(row):
-
+    # print("Looking at", row)
     comparison_to_function = {
         "gt": lambda x, y: x>y,
         "lt": lambda x,y: x<y,
@@ -27,7 +27,11 @@ def create_function(row):
 
     def function_to_return(sensor_type, sensor_value, sensor_plant_id):
         comparison_function = comparison_to_function[row["COMPARISON"]]
-
+        # print(f'Sensor type{sensor_type}, value in triggers.csv{row["SENSOR"]}, \
+        # #  are equal? {sensor_type == row["SENSOR"]}')
+        # if sensor_type == row["SENSOR"] == "MOISTURE":
+        #     print(f"Comparing these types: real: {sensor_type} trigger: {row['SENSOR']}\n comapring these values: real: {sensor_value} trigger {row['VALUE']}" +
+        #     f"\nResult {comparison_function(sensor_value, row['VALUE'])}")
         if sensor_type == row["SENSOR"] and comparison_function(sensor_value, row["VALUE"]):
             schedule_event(row["EVENT"], time.time(), plant_id=sensor_plant_id, is_utc_time=True)
 
@@ -36,7 +40,7 @@ def create_function(row):
 
 def get_trigger_functions(trigger_file="triggers.csv"):
     df = pd.read_csv(trigger_file)
-
+    print(df)
     return list(df.apply(lambda row: create_function(row) , axis=1))
 
 def upload_data(plant_id, sensor_type, sensor_value, extra_params={}):
@@ -57,8 +61,13 @@ def upload_data(plant_id, sensor_type, sensor_value, extra_params={}):
 
     print("Putting item in table:", item_dict)
     table.put_item(Item=item_dict)
-
-    for f in get_trigger_functions():
+    # all_functions = get_trigger_functions()
+    # print(f"Got {len(all_functions)} functions")
+    # for f in get_trigger_functions():
+    #     f(sensor_type, sensor_value, plant_id)
+    df = pd.read_csv("triggers.csv")
+    for _, row in df.iterrows():
+        f = create_function(row)
         f(sensor_type, sensor_value, plant_id)
 
 def mockData():

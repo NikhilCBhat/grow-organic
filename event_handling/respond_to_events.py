@@ -12,17 +12,17 @@ from data_collection.relay import turn_fan_on, turn_light_on, turn_fan_off, turn
 
 event_type_to_action = {
     "WATER": water_plant,
-    "FAN ON": lambda x: turn_fan_on,
-    "FAN OFF": lambda x: turn_fan_off,
-    "LIGHT ON": lambda x: turn_light_on,
-    "LIGHT OFF": lambda x: turn_light_off,
-    "AERATE": lambda x: aerate_water
+    "FAN ON": lambda x: turn_fan_on(),
+    "FAN OFF": lambda x: turn_fan_off(),
+    "LIGHT ON": lambda x: turn_light_on(),
+    "LIGHT OFF": lambda x: turn_light_off(),
+    "AERATE": lambda x: aerate_water()
 }
 
 def take_action(event):
     event_id = event["EventID"]
-    print(f"\nTaking action on: {event_id}")
-    event_action = event_type_to_action[event["EventType"]]
+    print(f"\nTaking action on: {event_id} with event type: {event['EventType']}")
+    event_action = event_type_to_action.get(event["EventType"], lambda x: print("Event type has no associated action."))
     event_action(event.get("PlantID", 0))
 
     if 'Frequency' in event:

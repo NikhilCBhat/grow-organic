@@ -18,7 +18,7 @@ def setup_pump (in1, in2):
 def run_pump_forward (in1, in2, run_time):
     GPIO.output(in1, GPIO.LOW)
     GPIO.output(in2, GPIO.HIGH)
-    print("Run forward")
+#    print("Run forward")
     sleep(run_time)
     return
 
@@ -33,7 +33,7 @@ def run_pump_backward (in1, in2, run_time):
 def stop_pump (in1, in2, stop_time):
     GPIO.output(in1, GPIO.LOW)
     GPIO.output(in2, GPIO.LOW)
-    print("Stop")
+    print("Pump Stop")
     sleep(stop_time)
     return
 
